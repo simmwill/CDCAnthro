@@ -1,7 +1,7 @@
 bmi_pct <- function(data, age=age_in_months,
-                      # wt=weight_kg, ht=height_cm,
-                      bmi=bmi,
-                      all=FALSE)
+                    # wt=weight_kg, ht=height_cm,
+                    bmi=bmi,
+                    all=FALSE)
 {
   age_in_months <- weight <- height <- seq_ <- sex <- agey <- bz <-
     lwt2 <- mwt2 <- swt2 <- lbmi2 <- mbmi2 <- sbmi2 <- lht2 <- mht2 <- sht2 <-
@@ -43,14 +43,14 @@ bmi_pct <- function(data, age=age_in_months,
                 #lwt2,mwt2,swt2,
                 lbmi2,mbmi2,sbmi2
                 #lht2,mht2,sht2
-                )]
+              )]
   names(d20) <- gsub('2','',names(d20));
 
   dref <- dref[,.(sexn,agemos1,
                   #lwt1,mwt1,swt1,
                   lbmi1,mbmi1,sbmi1
                   #lht1,mht1,sht1
-                  )]
+  )]
   names(dref) <- gsub('1','',names(dref));
 
   dref=rbindlist(list(dref,d20))
@@ -134,11 +134,11 @@ bmi_pct <- function(data, age=age_in_months,
       'p50', 'p95', #'bmip95',
       'original_bmip', 'original_bmiz', #'perc_median',
       'mod_bmiz')
-      #'mod_waz', 'mod_haz')
+  #'mod_waz', 'mod_haz')
 
   if(all == TRUE){
     v=c(v, 'bmi_l', 'bmi_m', 'bmi_s',  'sigma')
-        #'adj_dist_median', 'dist_median', 'adj_perc_median', 'log_perc_median', 'adj_log_perc_median')
+    #'adj_dist_median', 'dist_median', 'adj_perc_median', 'log_perc_median', 'adj_log_perc_median')
   }
 
   dt <- dt[,..v]
@@ -146,5 +146,5 @@ bmi_pct <- function(data, age=age_in_months,
   dtot <- dt[dorig]
   set_cols_first(dtot,names(dorig))
   dtot[,seq_:=NULL]
-  return(dtot[])
+  return(dtot[,bmip])
 }
