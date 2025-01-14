@@ -120,31 +120,36 @@ bmi_z <- function(data, age=age_in_months,
   dt[bmip>=95, ebz:=qnorm(ebp/100)]
   dt[bmip>99 & is.infinite(ebz), ebz:=8.21] # highest possible value is 8.20945
 
-  x <- c('agey','mref','sref','sexn',
-         #'wt','ht',
-         'bmi'); dt[,(x):=NULL]
-
-  setnames(dt,
-           c('bz',            'bmip',          'ebp',  'ebz'),
-           c('original_bmiz', 'original_bmip', 'bmip', 'bmiz')
-  )
-
-  v=c('seq_', 'bmiz', 'bmip',
-      #'waz', 'wap', 'haz', 'hap',
-      'p50', 'p95', #'bmip95',
-      'original_bmip', 'original_bmiz', #'perc_median',
-      'mod_bmiz')
-  #'mod_waz', 'mod_haz')
-
-  if(all == TRUE){
-    v=c(v, 'bmi_l', 'bmi_m', 'bmi_s',  'sigma')
-    #'adj_dist_median', 'dist_median', 'adj_perc_median', 'log_perc_median', 'adj_log_perc_median')
-  }
-
-  dt <- dt[,..v]
+  # return(dt[,.(bz, ebz)])
+  #'
+  #' x <- c('agey','mref','sref','sexn',
+  #'        #'wt','ht',
+  #'        'bmi'); dt[,(x):=NULL]
+  #'
+  #' setnames(dt,
+  #'          c('bz',            'bmip',          'ebp',  'ebz'),
+  #'          c('original_bmiz', 'original_bmip', 'bmip', 'bmiz')
+  #' )
+  #'
+  #' v=c('seq_', 'bmiz', 'bmip',
+  #'     'ebz',
+  #'     #'waz', 'wap', 'haz', 'hap',
+  #'     'p50', 'p95', #'bmip95',
+  #'     'original_bmip', 'original_bmiz', #'perc_median',
+  #'     'mod_bmiz')
+  #' #'mod_waz', 'mod_haz')
+  #'
+  #' if(all == TRUE){
+  #'   v=c(v, 'bmi_l', 'bmi_m', 'bmi_s',  'sigma')
+  #'   #'adj_dist_median', 'dist_median', 'adj_perc_median', 'log_perc_median', 'adj_log_perc_median')
+  #' }
+  #'
+  #' dt <- dt[,..v]
   setkey(dt,seq_); setkey(dorig,seq_)
   dtot <- dt[dorig]
-  set_cols_first(dtot,names(dorig))
-  dtot[,seq_:=NULL]
-  return(dtot[,bmiz,mod_bmiz])
+  return(dtot[, .(bz, ebz)])  # includes NA values for missing BMI - same length as input
+  #' # set_cols_first(dtot,names(dorig))
+  #' # dtot[,seq_:=NULL]
+  #' # return(dt[,.(bmiz,ebz)])
+  #' return(dt)
 }
